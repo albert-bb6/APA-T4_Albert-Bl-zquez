@@ -1,26 +1,25 @@
 """
 Fichero: aleatorios.py
-Alumno: Albert Blázquez
-Descripción: Implementación de generadores de números pseudoaleatorios 
-mediante el algoritmo de congruencia lineal (LGC).
+Autor: Albert Blázquez
+Descripción: Implementación de generadores de números aleatorios LGC.
 """
 
 class Aleat:
     """
-    Clase que implementa un generador de números aleatorios usando LGC.
+    Clase que implementa un generador de números aleatorios.
 
     Atributos:
-        m (int): Módulo.
-        a (int): Multiplicador.
-        c (int): Incremento.
-        x (int): Estado actual (semilla o último número generado).
+        m (int): módulo.
+        a (int): multiplicador.
+        c (int): incremento.
+        x (int): estado actual (semilla/último número generado).
 
     Métodos:
-        __init__: Inicializa los parámetros (obligatorios por clave).
-        __next__: Calcula y devuelve el siguiente número.
-        __iter__: Devuelve el objeto como iterador.
-        __call__: Reinicia la secuencia con una nueva semilla (posicional).
-
+        __init__: inicializa los parámetros del generador (keyword-only).
+        __next__: calcula y devuelve el siguiente número de la secuencia.
+        __iter__: devuelve el propio objeto como iterador.
+        __call__: reinicia la secuencia con una nueva semilla (positional-only).
+    
     Pruebas unitarias:
     >>> rand = Aleat(m=32, a=9, c=13, x0=11)
     >>> for _ in range(4):
@@ -48,26 +47,24 @@ class Aleat:
         return self
 
     def __next__(self):
-        # Aplicación de la fórmula x = (a*x + c) % m
         self.x = (self.a * self.x + self.c) % self.m
         return self.x
 
     def __call__(self, x0, /):
         self.x = x0
 
-
 def aleat(*, m=2**48, a=25214903917, c=11, x0=1212121):
     """
-    Función generadora de números aleatorios usando yield y send.
+    Función generadora de números aleatorios.
 
     Argumentos:
-        m (int): Módulo (por defecto POSIX).
-        a (int): Multiplicador (por defecto POSIX).
-        c (int): Incremento (por defecto POSIX).
-        x0 (int): Semilla inicial.
+        m (int): módulo (por defecto POSIX).
+        a (int): multiplicador (por defecto POSIX).
+        c (int): incremento (por defecto POSIX).
+        x0 (int): semilla inicial.
 
     Yields:
-        int: El siguiente número pseudoaleatorio.
+        int: el siguiente número pseudoaleatorio de la secuencia.
 
     Pruebas unitarias:
     >>> rand = aleat(m=64, a=5, c=46, x0=36)
@@ -89,13 +86,10 @@ def aleat(*, m=2**48, a=25214903917, c=11, x0=1212121):
     x = x0
     while True:
         x = (a * x + c) % m
-        # yield devuelve el valor y 'recibido' captura lo que envíe .send()
         recibido = yield x
         if recibido is not None:
             x = recibido
 
-
 if __name__ == "__main__":
     import doctest
-    # Ejecuta las pruebas definidas en los docstrings
     doctest.testmod(verbose=True)
