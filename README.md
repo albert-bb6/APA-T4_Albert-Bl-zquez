@@ -18,8 +18,8 @@ Este repositorio contiene la implementación de un generador de números aleator
 
 A continuación se muestra el resultado de ejecutar el fichero `aleatorios.py` con la opción verbosa (`-v`), confirmando que todas las pruebas unitarias se han superado con éxito:
 
-![Resultado de los tests 1](PON_AQUI_EL_NOMBRE_DE_TU_PRIMERA_CAPTURA.png)
-![Resultado de los tests 2](PON_AQUI_EL_NOMBRE_DE_TU_SEGUNDA_CAPTURA.png)
+![Resultado de los tests 1](capt1.png)
+![Resultado de los tests 2](capt2.png)
 
 ---
 
