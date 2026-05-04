@@ -1,6 +1,6 @@
 """
 Fichero: aleatorios.py
-Alumno: Ainhoa Dumitru
+Alumno: Albert Blázquez
 Descripción: Implementación de generadores de números pseudoaleatorios 
 mediante el algoritmo de congruencia lineal (LGC).
 """
