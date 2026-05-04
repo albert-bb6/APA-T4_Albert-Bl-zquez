@@ -5,7 +5,7 @@
 > [!Important]
 > Introduzca a continuación su nombre y apellidos:
 >
-> Fulano Mengano Zutano
+> Albert Blázquez
 
 ## Aviso Importante
 
@@ -182,13 +182,113 @@ a ejecutar con la biblioteca `doctest`:
 Inserte a continuación una captura de pantalla que muestre el resultado de ejecutar el
 fichero `aleatorios.py` con la opción *verbosa*, de manera que se muestre el
 resultado de la ejecución de los tests unitarios.
+<img width="1152" height="1052" alt="Captura de pantalla 2026-04-30 175533" src="https://github.com/user-attachments/assets/bde07b6c-8411-4e4e-b10f-5fceb7dd1b9c" />
+<img width="1185" height="1065" alt="Captura de pantalla 2026-04-30 175522" src="https://github.com/user-attachments/assets/8f5d0097-c493-40d5-828e-9d7317b41b4a" />
+
 
 #### Código desarrollado
 
 Inserte a continuación el código de los métodos desarrollados en esta tarea, usando los
 comandos necesarios para que se realice el realce sintáctico en Python del mismo (no
 vale insertar una imagen o una captura de pantalla, debe hacerse en formato *markdown*).
+"""
+aleatorios.py 
+"""
 
+class Aleat:
+    """
+    clase que implementa un generador de números aleatorios.
+
+    atributos:
+    m(int) modulo.
+    a(int) multiplicador.
+    c(int) incremento.
+    x(int) estado actual (semilla/último número generado).
+
+    métodos:
+    __init__ inicializa los parámetros del generador.
+    __next__ calcula y devuelve el siguiente número de la secuencia.
+    __iter__ devuelve el propio objeto como iterador.
+    __call__ reinicia la secuencia con una nueva semilla.
+    
+    Pruebas unitarias:
+    >>> rand = Aleat(m=32, a=9, c=13, x0=11)
+    >>> for _ in range(4):
+    ...     print(next(rand))
+    16
+    29
+    18
+    15
+    >>> rand(29)
+    >>> for _ in range(4):
+    ...     print(next(rand))
+    18
+    15
+    20
+    1
+    """
+
+    def __init__(self, *, m=2**48, a=25214903917, c=11, x0=1212121):
+
+        self.m = m
+        self.a = a
+        self.c = c
+        self.x = x0
+
+    def __iter__(self):
+
+        return self
+
+    def __next__(self):
+        
+        self.x = (self.a * self.x + self.c) % self.m
+        return self.x
+
+    def __call__(self, x0, /):
+
+        self.x = x0
+
+def aleat(*, m=2**48, a=25214903917, c=11, x0=1212121):
+    """
+    función generadora de números aleatorios.
+
+    argumentos:
+    m(int) módulo (por defecto POSIX).
+    a(int) multiplicador (por defecto POSIX).
+    c(int) incremento (por defecto POSIX).
+    x0(int) semilla inicial.
+
+    yields:
+    int el siguiente número pseudoaleatorio de la secuencia.
+
+    Pruebas unitarias:
+    >>> rand = aleat(m=64, a=5, c=46, x0=36)
+    >>> for _ in range(4):
+    ...     print(next(rand))
+    34
+    24
+    38
+    44
+    >>> rand.send(24)
+    38
+    >>> for _ in range(4):
+    ...     print(next(rand))
+    44
+    10
+    32
+    14
+    """
+
+    x = x0
+    while True:
+        x = (a * x + c) % m
+        recibido = yield x
+        if recibido is not None:
+            x = recibido
+
+if __name__ == "__main__":
+    import doctest
+    doctest.testmod(verbose=True)
 #### Subida del resultado al repositorio GitHub y *pull-request*
 
 La entrega se formalizará mediante *pull request* al repositorio de la tarea.
